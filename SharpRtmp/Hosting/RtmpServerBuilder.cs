@@ -52,7 +52,8 @@ public class RtmpServerBuilder
         var types = Assembly.GetCallingAssembly().GetTypes();
 
         var registerInternalControllers = true;
-        _websocketOptions.ServerOptions = _options;
+        if(_useWebSocket)
+            _websocketOptions.ServerOptions = _options;
         foreach (var type in types)
         {
             var neverRegister = type.GetCustomAttribute<NeverRegisterAttribute>();
@@ -69,13 +70,9 @@ public class RtmpServerBuilder
             
             if (!_useWebSocket) continue;
             if (typeof(WebSocketController).IsAssignableFrom(type) && !type.IsAbstract)
-            {
                 _websocketOptions.RegisterController(type);
-            }
             if (typeof(WebSocketPlayController).IsAssignableFrom(type))
-            {
                 registerInternalControllers = false;
-            }
         }
 
         if (registerInternalControllers)

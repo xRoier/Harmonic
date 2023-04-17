@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Fleck;
 using SharpRtmp.Networking.Rtmp;
+using SharpRtmp.Networking.Rtmp.Data;
 using SharpRtmp.Networking.WebSocket;
 
 namespace SharpRtmp.Hosting;
@@ -62,7 +63,7 @@ public class RtmpServer
                     try
                     {
                         _allDone.Reset();
-                        _listener.BeginAccept(ar => { AcceptCallback(ar, ct); }, _listener);
+                        _listener.BeginAccept(AcceptCallback, new SocketState(_listener, ct));
                         while (!_allDone.WaitOne(1))
                             ct.ThrowIfCancellationRequested();
                     }
@@ -88,9 +89,11 @@ public class RtmpServer
         t.Start();
         return ret.Task;
     }
-    private async void AcceptCallback(IAsyncResult ar, CancellationToken ct)
+    private async void AcceptCallback(IAsyncResult ar)
     {
-        var listener = (Socket)ar.AsyncState;
+        var socketState = (SocketState)ar.AsyncState;
+        var listener = socketState?.Socket;
+        var ct = socketState?.CancellationToken ?? default;
         var client = listener?.EndAccept(ar);
         if (client == null) return;
         client.NoDelay = true;

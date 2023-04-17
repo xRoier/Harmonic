@@ -147,7 +147,7 @@ class IoPipeLine : IDisposable
     {
         while (!ct.IsCancellationRequested && !_disposedValue)
         {
-            var memory = writer.GetMemory(ChunkStreamContext == null ? 1536 : ChunkStreamContext.ReadMinimumBufferSize);
+            var memory = writer.GetMemory(ChunkStreamContext?.ReadMinimumBufferSize ?? 1536);
             var bytesRead = await s.ReceiveAsync(memory, SocketFlags.None, ct);
             if (bytesRead == 0)
                 break;
@@ -157,7 +157,7 @@ class IoPipeLine : IDisposable
                 break;
         }
 
-        writer.Complete();
+        await writer.CompleteAsync();
     }
 
     private async Task Consumer(PipeReader reader, CancellationToken ct = default)
@@ -193,7 +193,7 @@ class IoPipeLine : IDisposable
         }
 
         // Mark the PipeReader as complete
-        reader.Complete();
+        await reader.CompleteAsync();
     }
 
     internal void Disconnect()

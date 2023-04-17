@@ -120,7 +120,7 @@ internal class RpcService
         }
     }
 
-    internal void RegeisterController(Type controllerType)
+    internal void RegisterController(Type controllerType)
     {
         var methods = controllerType.GetMethods();
         bool canInvoke = false;

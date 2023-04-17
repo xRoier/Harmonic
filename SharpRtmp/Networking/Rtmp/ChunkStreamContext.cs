@@ -179,7 +179,6 @@ class ChunkStreamContext : IDisposable
         {
             _arrayPool.Return(buffer);
         }
-
     }
 
     private void GenerateMesesageHeader(ChunkHeaderType chunkHeaderType, MessageHeader header, MessageHeader prevHeader, out byte[] buffer, out int length)

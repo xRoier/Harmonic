@@ -1,12 +1,10 @@
-﻿using SharpRtmp.Controllers;
-using SharpRtmp.Controllers.Living;
+﻿using SharpRtmp.Controllers.Living;
 using SharpRtmp.Rpc;
 using SharpRtmp.Service;
 using System.Threading.Tasks;
 
 namespace SharpRtmp.Example;
 
-[NeverRegister]
 public class MyLivingStream : LivingStream
 {
     public MyLivingStream(PublisherSessionService publisherSessionService) : base(publisherSessionService)

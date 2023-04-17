@@ -107,14 +107,14 @@ public class RtmpServerOptions
             throw new InvalidOperationException("controllerType must inherit from AbstractController");
         var name = appName ?? controllerType.Name.Replace("Controller", "");
         _registeredControllers.Add(name.ToLower(), controllerType);
-        _rpcService.RegeisterController(controllerType);
+        _rpcService.RegisterController(controllerType);
         Builder.RegisterType(controllerType).AsSelf();
     }
     public void RegisterStream(Type streamType)
     {
         if (!typeof(NetStream).IsAssignableFrom(streamType))
             throw new InvalidOperationException("streamType must inherit from NetStream");
-        _rpcService.RegeisterController(streamType);
+        _rpcService.RegisterController(streamType);
         Builder.RegisterType(streamType).AsSelf();
     }
 
