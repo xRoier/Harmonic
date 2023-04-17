@@ -101,7 +101,7 @@ public class RtmpServerOptions
         }
     }
 
-    internal void RegisterController(Type controllerType, string appName = null)
+    public void RegisterController(Type controllerType, string appName = null)
     {
         if (!typeof(RtmpController).IsAssignableFrom(controllerType))
             throw new InvalidOperationException("controllerType must inherit from AbstractController");
@@ -110,7 +110,7 @@ public class RtmpServerOptions
         _rpcService.RegeisterController(controllerType);
         Builder.RegisterType(controllerType).AsSelf();
     }
-    internal void RegisterStream(Type streamType)
+    public void RegisterStream(Type streamType)
     {
         if (!typeof(NetStream).IsAssignableFrom(streamType))
             throw new InvalidOperationException("streamType must inherit from NetStream");
@@ -135,7 +135,7 @@ public class RtmpServerOptions
             .SingleInstance();
     }
 
-    internal void RegisterController<T>(string appName = null) where T : RtmpController => RegisterController(typeof(T), appName);
+    public void RegisterController<T>(string appName = null) where T : RtmpController => RegisterController(typeof(T), appName);
 
-    internal void RegisterStream<T>() where T : NetStream => RegisterStream(typeof(T));
+    public void RegisterStream<T>() where T : NetStream => RegisterStream(typeof(T));
 }
