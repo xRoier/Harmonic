@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Harmonic.Networking.Amf.Attributes
+namespace Harmonic.Networking.Amf.Serialization.Attributes;
+
+[AttributeUsage(AttributeTargets.Class)]
+public class TypedObjectAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class TypedObjectAttribute : Attribute
-    {
-        public string Name { get; set; } = null;
-    }
+    public string Name { get; set; }
 }

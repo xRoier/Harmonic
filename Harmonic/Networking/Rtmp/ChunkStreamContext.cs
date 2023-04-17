@@ -555,7 +555,7 @@ namespace Harmonic.Networking.Rtmp
                     }
                     else
                     {
-                        if (_ioPipeline.Options._messageFactories.TryGetValue(header.MessageHeader.MessageType, out var factory))
+                        if (_ioPipeline.Options.MessageFactories.TryGetValue(header.MessageHeader.MessageType, out var factory))
                         {
                             try
                             {

@@ -26,7 +26,7 @@ namespace Harmonic.Networking.WebSocket
         private WebSocketOptions _options = null;
         private WebSocketController _controller = null;
         private FlvMuxer _flvMuxer = null;
-        public RtmpServerOptions Options => _options._serverOptions;
+        public RtmpServerOptions Options => _options.ServerOptions;
 
         public WebSocketSession(IWebSocketConnection connection, WebSocketOptions options)
         {
@@ -64,11 +64,11 @@ namespace Harmonic.Networking.WebSocket
                 {
                     query = path.Substring(idx);
                 }
-                if (!_options._controllers.TryGetValue(controllerName.ToLower(), out var controllerType))
+                if (!_options.Controllers.TryGetValue(controllerName.ToLower(), out var controllerType))
                 {
                     _webSocketConnection.Close();
                 }
-                _controller = _options._serverOptions.ServerLifetime.Resolve(controllerType) as WebSocketController;
+                _controller = _options.ServerOptions.ServerLifetime.Resolve(controllerType) as WebSocketController;
                 _controller.Query = HttpUtility.ParseQueryString(query);
                 _controller.StreamName = streamName;
                 _controller.Session = this;

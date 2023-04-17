@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Harmonic.Controllers
+namespace Harmonic.Controllers;
+
+[AttributeUsage(AttributeTargets.Class)]
+public class NeverRegisterAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class NeverRegisterAttribute : Attribute
-    {
-
-    }
 }

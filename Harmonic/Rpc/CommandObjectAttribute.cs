@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Harmonic.Networking.Rtmp
+namespace Harmonic.Rpc;
+
+[AttributeUsage(AttributeTargets.Parameter)]
+public class CommandObjectAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Parameter)]
-    public class CommandObjectAttribute : Attribute
-    {
-    }
 }

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 
 namespace Harmonic.Networking.Amf.Serialization.Amf3
 {
     public class Amf3Xml : XmlDocument
     {
-        public Amf3Xml() : base() { }
+        public Amf3Xml()
+        {
+        }
 
         public Amf3Xml(XmlNameTable nt) : base(nt) { }
 

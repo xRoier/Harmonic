@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harmonic", "Harmonic\Harmonic.csproj", "{687B914B-94EB-417A-992B-0B1EFD0623C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{A79FD57F-233E-4DB9-8A29-79F24ADE5EE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harmonic.UnitTests", "Harmonic.UnitTests\Harmonic.UnitTests.csproj", "{A79FD57F-233E-4DB9-8A29-79F24ADE5EE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "demo", "demo\demo.csproj", "{986D043B-34A6-4DE9-949E-98472E65EC18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harmonic.Demo", "Harmonic.Demo\Harmonic.Demo.csproj", "{986D043B-34A6-4DE9-949E-98472E65EC18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,18 +1,13 @@
-﻿using Harmonic.Networking.Rtmp.Messages;
-using Harmonic.Rpc;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Harmonic.Rpc;
 
-namespace Harmonic.Controllers.Record
+namespace Harmonic.Controllers.Record;
+
+public class RecordController : RtmpController
 {
-    public class RecordController : RtmpController
+    [RpcMethod("createStream")]
+    public uint CreateStream()
     {
-        [RpcMethod("createStream")]
-        public uint CreateStream()
-        {
-            var stream = RtmpSession.CreateNetStream<RecordStream>();
-            return stream.MessageStream.MessageStreamId;
-        }
+        var stream = RtmpSession.CreateNetStream<RecordStream>();
+        return stream.MessageStream.MessageStreamId;
     }
 }
