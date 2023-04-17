@@ -4,7 +4,7 @@ using Harmonic.Rpc;
 using Harmonic.Service;
 using System.Threading.Tasks;
 
-namespace Harmonic.Demo;
+namespace Harmonic.Example;
 
 [NeverRegister]
 public class MyLivingStream : LivingStream

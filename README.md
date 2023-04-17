@@ -24,7 +24,7 @@ Startup.cs
 using Autofac;
 using Harmonic.Hosting;
 
-namespace Harmonic.Demo;
+namespace Harmonic.Example;
 
 class Startup : IStartup
 {

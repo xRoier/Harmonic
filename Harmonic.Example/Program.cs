@@ -1,6 +1,6 @@
 ﻿using Harmonic.Hosting;
 using System.Net;
-using Harmonic.Demo;
+using Harmonic.Example;
 
 var server = new RtmpServerBuilder()
     .UseStartup<Startup>()

@@ -2,7 +2,7 @@
 using Harmonic.Controllers.Living;
 using Harmonic.Rpc;
 
-namespace Harmonic.Demo;
+namespace Harmonic.Example;
 
 [NeverRegister]
 class MyLivingController : LivingController
