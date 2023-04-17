@@ -7,6 +7,5 @@ class Startup : IStartup
 {
     public void ConfigureServices(ContainerBuilder builder)
     {
-
     }
 }

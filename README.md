@@ -1,5 +1,3 @@
-master is not a stable branch, you may want to see the latest [tag](https://github.com/a1q123456/rtmp-sharp-server/tree/v0.0.1)
-
 # Harmonic
 A high performance RTMP live streaming application framework
 
@@ -15,39 +13,25 @@ using Harmonic.Hosting;
 using System;
 using System.Net;
 
-namespace demo
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            RtmpServer server = new RtmpServerBuilder()
-                .UseStartup<Startup>()
-                .Build();
-            var tsk = server.StartAsync();
-            tsk.Wait();
-        }
-    }
-}
-
+RtmpServer server = new RtmpServerBuilder()
+    .UseStartup<Startup>()
+    .Build();
+await server.StartAsync();
 ```
 
-StartUp.cs
+Startup.cs
 ```csharp
 using Autofac;
 using Harmonic.Hosting;
 
-namespace demo
-{
-    class Startup : IStartup
-    {
-        public void ConfigureServices(ContainerBuilder builder)
-        {
+namespace Harmonic.Demo;
 
-        }
+class Startup : IStartup
+{
+    public void ConfigureServices(ContainerBuilder builder)
+    {
     }
 }
-
 ```
 
 Build a server like this to support websocket-flv transmission
@@ -96,4 +80,3 @@ ffplay "rtmp://127.0.0.1/living/streamName"
 
 # Dive in deep
 You can view docs [here](docs/README.md)
-

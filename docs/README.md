@@ -12,39 +12,25 @@ using Harmonic.Hosting;
 using System;
 using System.Net;
 
-namespace demo
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            RtmpServer server = new RtmpServerBuilder()
-                .UseStartup<Startup>()
-                .Build();
-            var tsk = server.StartAsync();
-            tsk.Wait();
-        }
-    }
-}
-
+RtmpServer server = new RtmpServerBuilder()
+    .UseStartup<Startup>()
+    .Build();
+await server.StartAsync();
 ```
 
-StartUp.cs
+Startup.cs
 ```csharp
 using Autofac;
 using Harmonic.Hosting;
 
-namespace demo
-{
-    class Startup : IStartup
-    {
-        public void ConfigureServices(ContainerBuilder builder)
-        {
+namespace Harmonic.Demo;
 
-        }
+class Startup : IStartup
+{
+    public void ConfigureServices(ContainerBuilder builder)
+    {
     }
 }
-
 ```
 
 Build a server like this to support websocket-flv transmission
@@ -57,7 +43,6 @@ RtmpServer server = new RtmpServerBuilder()
         c.BindEndPoint = new IPEndPoint(IPAddress.Parse("0.0.0.0"), 8080);
     })
     .Build();
-
 ```
 # Scalability
 
@@ -88,10 +73,8 @@ public class MyLivingStream : LivingStream
         // your logic
 
         base.Publish(publishingName, publishingType);
-        
     }
 }
-
 ```
 
 ## RtmpController and WebSocketController
@@ -101,7 +84,7 @@ When a controller class inherit from WebSocketController, it will become a webso
 
 ## Recording
 The `RecordController` can record video, by default, it will save flv files into `working_dir/Record`.
-You can overrite the recording configuration by register you own configure class in `StartUp` class
+You can overrite the recording configuration by register you own configure class in `Startup` class
 
 ```csharp
 class MyRecordConfiguration: RecordServiceConfiguration
@@ -157,7 +140,7 @@ See [rpc-docs](rpc.md)
 See [api-docs](api.md)
 
 ## Dependency injection in controllers
-Harmonic uses autofac as the DI framework, you can register you own service in `StartUp`, and use it in your controller
+Harmonic uses autofac as the DI framework, you can register you own service in `Startup`, and use it in your controller
 
 ```csharp
 class Startup : IStartup
@@ -181,7 +164,7 @@ class MyController: LivingController
 
 ## Custom message
 
-To add your own custom message, you need to write a message class, then rengister the message class when you call `UseHarmonic`
+To add your own custom message, you need to write a message class, then register the message class when you call `UseHarmonic`
 
 for example:
 
@@ -236,8 +219,4 @@ ffplay "rtmp://127.0.0.1/living/streamName"
         flvPlayer.play();
     }
 </script>
-```
-
-
-
 ```
