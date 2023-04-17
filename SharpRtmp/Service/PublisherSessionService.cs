@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using SharpRtmp.Controllers.Living;
+
+namespace SharpRtmp.Service;
+
+public class PublisherSessionService
+{
+    private readonly Dictionary<string, LivingStream> _pathMapToSession = new();
+    private readonly Dictionary<LivingStream, string> _sessionMapToPath = new();
+
+    internal void RegisterPublisher(string publishingName, LivingStream session)
+    {
+        if (_pathMapToSession.ContainsKey(publishingName))
+            throw new InvalidOperationException("request instance is publishing");
+        if (_sessionMapToPath.ContainsKey(session))
+            throw new InvalidOperationException("request session is publishing");
+        _pathMapToSession.Add(publishingName, session);
+        _sessionMapToPath.Add(session, publishingName);
+    }
+
+    internal void RemovePublisher(LivingStream session)
+    {
+        if (!_sessionMapToPath.TryGetValue(session, out var publishingName))
+            return;
+        _sessionMapToPath.Remove(session);
+        _pathMapToSession.Remove(publishingName);
+    }
+    public LivingStream FindPublisher(string publishingName) => _pathMapToSession.TryGetValue(publishingName, out var session) ? session : null;
+}
