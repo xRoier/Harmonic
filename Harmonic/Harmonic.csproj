@@ -29,9 +29,9 @@
     <Compile Remove="Networking\StreamHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.9.3" />
-    <PackageReference Include="Fleck" Version="1.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="System.IO.Pipelines" Version="4.5.3" />
+    <PackageReference Include="Autofac" Version="7.0.0" />
+    <PackageReference Include="Fleck" Version="1.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.IO.Pipelines" Version="8.0.0-preview.3.23174.8" />
   </ItemGroup>
 </Project>
