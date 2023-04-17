@@ -1,4 +1,4 @@
-# Harmonic
+# SharpRtmp
 A high performance RTMP Server framework implementation
 
 
@@ -9,7 +9,7 @@ A high performance RTMP Server framework implementation
 Program.cs
 
 ```csharp
-using Harmonic.Hosting;
+using SharpRtmp.Hosting;
 using System;
 using System.Net;
 
@@ -22,9 +22,9 @@ await server.StartAsync();
 Startup.cs
 ```csharp
 using Autofac;
-using Harmonic.Hosting;
+using SharpRtmp.Hosting;
 
-namespace Harmonic.Example;
+namespace SharpRtmp.Example;
 
 class Startup : IStartup
 {
