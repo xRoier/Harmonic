@@ -1,5 +1,5 @@
 # Harmonic
-A high performance RTMP live streaming application framework
+A high performance RTMP Server framework implementation
 
 
 # Usage
