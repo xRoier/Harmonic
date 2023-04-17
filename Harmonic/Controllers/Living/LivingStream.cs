@@ -136,7 +136,7 @@ public class LivingStream : NetStream
 
         _publisherSessionService.RegisterPublisher(publishingName, this);
 
-        RtmpSession.SendControlMessageAsync(new StreamBeginMessage() { StreamID = MessageStream.MessageStreamId });
+        RtmpSession.SendControlMessageAsync(new StreamBeginMessage() { StreamId = MessageStream.MessageStreamId });
         var onStatus = RtmpSession.CreateCommandMessage<OnStatusCommandMessage>();
         MessageStream.RegisterMessageHandler<DataMessage>(HandleDataMessage);
         MessageStream.RegisterMessageHandler<AudioMessage>(HandleAudioMessage);

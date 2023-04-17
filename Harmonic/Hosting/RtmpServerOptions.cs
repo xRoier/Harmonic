@@ -93,7 +93,7 @@ public class RtmpServerOptions
 
         foreach (var messageType in attr.MessageTypes)
         {
-            _messageFactories.Add(messageType, (MessageHeader a, SerializationContext b, out int c) =>
+            _messageFactories.Add(messageType, (MessageHeader _, SerializationContext _, out int c) =>
             {
                 c = 0;
                 return new T();
@@ -122,15 +122,15 @@ public class RtmpServerOptions
 
     private void RegisterCommonServices(ContainerBuilder builder)
     {
-        builder.Register(c => new RecordServiceConfiguration())
+        builder.Register(_ => new RecordServiceConfiguration())
             .AsSelf();
         builder.Register(c => new RecordService(c.Resolve<RecordServiceConfiguration>()))
             .AsSelf()
             .InstancePerLifetimeScope();
-        builder.Register(c => new PublisherSessionService())
+        builder.Register(_ => new PublisherSessionService())
             .AsSelf()
             .InstancePerLifetimeScope();
-        builder.Register(c => _rpcService)
+        builder.Register(_ => _rpcService)
             .AsSelf()
             .SingleInstance();
     }

@@ -25,5 +25,4 @@ public class WebSocketOptions
         Controllers.Add(controllerType.Name.Replace("Controller", "").ToLower(), controllerType);
         ServerOptions.Builder.RegisterType(controllerType).AsSelf();
     }
-
 }

@@ -14,7 +14,7 @@ public abstract class RtmpController
     private FlvDemuxer _flvDemuxer;
 
     public FlvMuxer FlvMuxer => _flvMuxer ??= new FlvMuxer();
-    public FlvDemuxer FlvDemuxer => _flvDemuxer ??= new FlvDemuxer(RtmpSession.IOPipeline.Options.MessageFactories);
+    public FlvDemuxer FlvDemuxer => _flvDemuxer ??= new FlvDemuxer(RtmpSession.IoPipeline.Options.MessageFactories);
 
     [RpcMethod("deleteStream")]
     public void DeleteStream([FromOptionalArgument] double streamId) => RtmpSession.DeleteNetStream((uint)streamId);

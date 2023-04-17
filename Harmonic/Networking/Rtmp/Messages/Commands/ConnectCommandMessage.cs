@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Harmonic.Networking.Rtmp.Serialization;
-using Harmonic.Networking.Rtmp.Messages;
+﻿using Harmonic.Networking.Rtmp.Serialization;
 
-namespace Harmonic.Networking.Rtmp.Messages.Commands
+namespace Harmonic.Networking.Rtmp.Messages.Commands;
+
+[RtmpCommand(Name = "connect")]
+public class ConnectCommandMessage : CommandMessage
 {
-    [RtmpCommand(Name = "connect")]
-    public class ConnectCommandMessage : CommandMessage
-    {
-        [OptionalArgument]
-        public object UserArguments { get; set; }
+    [OptionalArgument]
+    public object UserArguments { get; set; }
 
-        public ConnectCommandMessage(AmfEncodingVersion encoding) : base(encoding)
-        {
-        }
+    public ConnectCommandMessage(AmfEncodingVersion encoding) : base(encoding)
+    {
     }
 }

@@ -1,49 +1,41 @@
 ﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Text;
 using Harmonic.Networking.Rtmp.Data;
 using Harmonic.Networking.Rtmp.Serialization;
 using Harmonic.Networking.Utils;
 
-namespace Harmonic.Networking.Rtmp.Messages
+namespace Harmonic.Networking.Rtmp.Messages;
+
+public enum LimitType : byte
 {
-    public enum LimitType : byte
+    Hard,
+    Soft,
+    Dynamic
+}
+
+[RtmpMessage(MessageType.SetPeerBandwidth)]
+public class SetPeerBandwidthMessage : ControlMessage
+{
+    public uint WindowSize { get; set; }
+    public LimitType LimitType { get; set; }
+
+    public override void Deserialize(SerializationContext context)
     {
-        Hard,
-        Soft,
-        Dynamic
+        WindowSize = NetworkBitConverter.ToUInt32(context.ReadBuffer.Span);
+        LimitType = (LimitType)context.ReadBuffer.Span[sizeof(uint)..][0];
     }
 
-    [RtmpMessage(MessageType.SetPeerBandwidth)]
-    public class SetPeerBandwidthMessage : ControlMessage
+    public override void Serialize(SerializationContext context)
     {
-        public uint WindowSize { get; set; }
-        public LimitType LimitType { get; set; }
-
-        public SetPeerBandwidthMessage() : base()
+        var buffer = ArrayPool.Rent(sizeof(uint) + sizeof(byte));
+        try
         {
+            NetworkBitConverter.TryGetBytes(WindowSize, buffer);
+            buffer.AsSpan(sizeof(uint))[0] = (byte)LimitType;
+            context.WriteBuffer.WriteToBuffer(buffer.AsSpan(0, sizeof(uint) + sizeof(byte)));
         }
-
-        public override void Deserialize(SerializationContext context)
+        finally
         {
-            WindowSize = NetworkBitConverter.ToUInt32(context.ReadBuffer.Span);
-            LimitType = (LimitType)context.ReadBuffer.Span.Slice(sizeof(uint))[0];
-        }
-
-        public override void Serialize(SerializationContext context)
-        {
-            var buffer = _arrayPool.Rent(sizeof(uint) + sizeof(byte));
-            try
-            {
-                NetworkBitConverter.TryGetBytes(WindowSize, buffer);
-                buffer.AsSpan(sizeof(uint))[0] = (byte)LimitType;
-                context.WriteBuffer.WriteToBuffer(buffer.AsSpan(0, sizeof(uint) + sizeof(byte)));
-            }
-            finally
-            {
-                _arrayPool.Return(buffer);
-            }
+            ArrayPool.Return(buffer);
         }
     }
 }

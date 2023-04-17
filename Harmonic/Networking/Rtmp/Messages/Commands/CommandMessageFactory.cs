@@ -1,77 +1,68 @@
-﻿using Harmonic.Networking.Rtmp.Data;
-using Harmonic.Networking.Rtmp.Messages.Commands;
-using Harmonic.Networking.Rtmp.Serialization;
-using Harmonic.Networking.Utils;
-using Harmonic.Networking.Rtmp.Messages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
-using System.Text;
+using Harmonic.Networking.Rtmp.Data;
+using Harmonic.Networking.Rtmp.Serialization;
 
-namespace Harmonic.Networking.Rtmp.Messages.UserControlMessages
+namespace Harmonic.Networking.Rtmp.Messages.Commands;
+
+public class CommandMessageFactory
 {
-    public class CommandMessageFactory
+    public readonly Dictionary<string, Type> MessageFactories = new();
+
+    public CommandMessageFactory()
     {
-        public Dictionary<string, Type> _messageFactories = new Dictionary<string, Type>();
+        RegisterMessage<ConnectCommandMessage>();
+        RegisterMessage<CreateStreamCommandMessage>();
+        RegisterMessage<DeleteStreamCommandMessage>();
+        RegisterMessage<OnStatusCommandMessage>();
+        RegisterMessage<PauseCommandMessage>();
+        RegisterMessage<Play2CommandMessage>();
+        RegisterMessage<PlayCommandMessage>();
+        RegisterMessage<PublishCommandMessage>();
+        RegisterMessage<ReceiveAudioCommandMessage>();
+        RegisterMessage<ReceiveVideoCommandMessage>();
+        RegisterMessage<SeekCommandMessage>();
+    }
 
-        public CommandMessageFactory()
+    public void RegisterMessage<T>() where T: CommandMessage
+    {
+        var tType = typeof(T);
+        var attr = tType.GetCustomAttribute<RtmpCommandAttribute>();
+        if (attr == null)
+            throw new InvalidOperationException();
+        MessageFactories.Add(attr.Name, tType);
+    }
+
+    public Message Provide(MessageHeader header, SerializationContext context, out int consumed)
+    {
+        string name;
+        var amf3 = false;
+        switch (header.MessageType)
         {
-            RegisterMessage<ConnectCommandMessage>();
-            RegisterMessage<CreateStreamCommandMessage>();
-            RegisterMessage<DeleteStreamCommandMessage>();
-            RegisterMessage<OnStatusCommandMessage>();
-            RegisterMessage<PauseCommandMessage>();
-            RegisterMessage<Play2CommandMessage>();
-            RegisterMessage<PlayCommandMessage>();
-            RegisterMessage<PublishCommandMessage>();
-            RegisterMessage<ReceiveAudioCommandMessage>();
-            RegisterMessage<ReceiveVideoCommandMessage>();
-            RegisterMessage<SeekCommandMessage>();
-
-        }
-
-        public void RegisterMessage<T>() where T: CommandMessage
-        {
-            var tType = typeof(T);
-            var attr = tType.GetCustomAttribute<RtmpCommandAttribute>();
-            if (attr == null)
-            {
-                throw new InvalidOperationException();
-            }
-            _messageFactories.Add(attr.Name, tType);
-        }
-
-        public Message Provide(MessageHeader header, SerializationContext context, out int consumed)
-        {
-            string name = null;
-            bool amf3 = false;
-            if (header.MessageType == MessageType.Amf0Command)
+            case MessageType.Amf0Command:
             {
                 if (!context.Amf0Reader.TryGetString(context.ReadBuffer.Span, out name, out consumed))
-                {
                     throw new ProtocolViolationException();
-                }
+                break;
             }
-            else if (header.MessageType == MessageType.Amf3Command)
+            case MessageType.Amf3Command:
             {
                 amf3 = true;
                 if (!context.Amf3Reader.TryGetString(context.ReadBuffer.Span, out name, out consumed))
-                {
                     throw new ProtocolViolationException();
-                }
+                break;
             }
-            else
-            {
+            default:
                 throw new InvalidOperationException();
-            }
-            if (!_messageFactories.TryGetValue(name, out var t))
-            {
-                throw new NotSupportedException();
-            }
-            var ret = (CommandMessage)Activator.CreateInstance(t, amf3 ? AmfEncodingVersion.Amf3 : AmfEncodingVersion.Amf0);
-            ret.ProcedureName = name;
-            return ret;
         }
+        if (!MessageFactories.TryGetValue(name, out var t))
+            throw new NotSupportedException();
+        var ret = (CommandMessage)Activator.CreateInstance(t, amf3 ? AmfEncodingVersion.Amf3 : AmfEncodingVersion.Amf0);
+        if (ret == null)
+            throw new InvalidOperationException();
+        ret.ProcedureName = name;
+        return ret;
     }
 }

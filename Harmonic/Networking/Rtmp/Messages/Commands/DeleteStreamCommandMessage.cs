@@ -1,19 +1,14 @@
 ﻿using Harmonic.Networking.Rtmp.Serialization;
-using Harmonic.Networking.Rtmp.Messages;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Harmonic.Networking.Rtmp.Messages.Commands
+namespace Harmonic.Networking.Rtmp.Messages.Commands;
+
+[RtmpCommand(Name = "deleteStream")]
+public class DeleteStreamCommandMessage : CommandMessage
 {
-    [RtmpCommand(Name = "deleteStream")]
-    public class DeleteStreamCommandMessage : CommandMessage
-    {
-        [OptionalArgument]
-        public double StreamID { get; set; }
+    [OptionalArgument]
+    public double StreamId { get; set; }
 
-        public DeleteStreamCommandMessage(AmfEncodingVersion encoding) : base(encoding)
-        {
-        }
+    public DeleteStreamCommandMessage(AmfEncodingVersion encoding) : base(encoding)
+    {
     }
 }

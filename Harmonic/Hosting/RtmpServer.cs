@@ -95,10 +95,10 @@ public class RtmpServer
         if (client == null) return;
         client.NoDelay = true;
         _allDone.Set();
-        IOPipeLine pipe = null;
+        IoPipeLine pipe = null;
         try
         {
-            pipe = new IOPipeLine(client, _options);
+            pipe = new IoPipeLine(client, _options);
             await pipe.StartAsync(ct);
         }
         catch (TimeoutException)

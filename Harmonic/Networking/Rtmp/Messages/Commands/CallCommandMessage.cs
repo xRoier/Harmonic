@@ -1,20 +1,8 @@
-﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Harmonic.Networking.Rtmp.Data;
-using Harmonic.Networking.Rtmp.Serialization;
-using Harmonic.Networking.Rtmp.Messages;
+﻿namespace Harmonic.Networking.Rtmp.Messages.Commands;
 
-namespace Harmonic.Networking.Rtmp.Messages.Commands
+public abstract class CallCommandMessage : CommandMessage
 {
-    public abstract class CallCommandMessage : CommandMessage
+    public CallCommandMessage(AmfEncodingVersion encoding) : base(encoding)
     {
-        public CallCommandMessage(AmfEncodingVersion encoding) : base(encoding)
-        {
-        }
     }
 }

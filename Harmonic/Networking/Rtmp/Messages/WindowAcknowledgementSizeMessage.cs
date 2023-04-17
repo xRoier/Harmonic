@@ -1,39 +1,32 @@
 ﻿using System;
 using System.Buffers;
-using System.Collections.Generic;
-using System.Text;
 using Harmonic.Networking.Rtmp.Data;
 using Harmonic.Networking.Rtmp.Serialization;
 using Harmonic.Networking.Utils;
 
-namespace Harmonic.Networking.Rtmp.Messages
+namespace Harmonic.Networking.Rtmp.Messages;
+
+[RtmpMessage(MessageType.WindowAcknowledgementSize)]
+public class WindowAcknowledgementSizeMessage : ControlMessage
 {
-    [RtmpMessage(MessageType.WindowAcknowledgementSize)]
-    public class WindowAcknowledgementSizeMessage : ControlMessage
+    public uint WindowSize { get; set; }
+
+    public override void Deserialize(SerializationContext context)
     {
-        public uint WindowSize { get; set; }
+        WindowSize = NetworkBitConverter.ToUInt32(context.ReadBuffer.Span);
+    }
 
-        public WindowAcknowledgementSizeMessage() : base()
+    public override void Serialize(SerializationContext context)
+    {
+        var arr = ArrayPool<byte>.Shared.Rent(sizeof(uint));
+        try
         {
+            NetworkBitConverter.TryGetBytes(WindowSize, arr);
+            context.WriteBuffer.WriteToBuffer(arr.AsSpan(0, sizeof(uint)));
         }
-
-        public override void Deserialize(SerializationContext context)
+        finally
         {
-            WindowSize = NetworkBitConverter.ToUInt32(context.ReadBuffer.Span);
-        }
-
-        public override void Serialize(SerializationContext context)
-        {
-            var arr = ArrayPool<byte>.Shared.Rent(sizeof(uint));
-            try
-            {
-                NetworkBitConverter.TryGetBytes(WindowSize, arr);
-                context.WriteBuffer.WriteToBuffer(arr.AsSpan(0, sizeof(uint)));
-            }
-            finally
-            {
-                ArrayPool<byte>.Shared.Return(arr);
-            }
+            ArrayPool<byte>.Shared.Return(arr);
         }
     }
 }

@@ -12,19 +12,16 @@ public abstract class NetStream : RtmpController, IDisposable
         Dispose();
     }
         
-    private bool disposedValue = false;
+    private bool _disposedValue;
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
-        {
-            if (disposing)
-            {
-                MessageStream.RtmpSession.NetConnection.MessageStreamDestroying(this);
-            }
+        if (_disposedValue)
+            return;
+        if (disposing)
+            MessageStream.RtmpSession.NetConnection.MessageStreamDestroying(this);
 
-            disposedValue = true;
-        }
+        _disposedValue = true;
     }
 
     public void Dispose() => Dispose(true);

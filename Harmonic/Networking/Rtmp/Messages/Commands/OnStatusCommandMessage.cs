@@ -1,20 +1,14 @@
-﻿using Harmonic.Networking.Rtmp.Data;
-using Harmonic.Networking.Rtmp.Serialization;
-using Harmonic.Networking.Rtmp.Messages;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Harmonic.Networking.Rtmp.Serialization;
 
-namespace Harmonic.Networking.Rtmp.Messages.Commands
+namespace Harmonic.Networking.Rtmp.Messages.Commands;
+
+[RtmpCommand(Name = "onStatus")]
+public class OnStatusCommandMessage : CommandMessage
 {
-    [RtmpCommand(Name = "onStatus")]
-    public class OnStatusCommandMessage : CommandMessage
-    {
-        [OptionalArgument]
-        public object InfoObject { get; set; }
+    [OptionalArgument]
+    public object InfoObject { get; set; }
 
-        public OnStatusCommandMessage(AmfEncodingVersion encoding) : base(encoding)
-        {
-        }
+    public OnStatusCommandMessage(AmfEncodingVersion encoding) : base(encoding)
+    {
     }
 }

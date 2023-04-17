@@ -91,8 +91,8 @@ public class RecordStream : NetStream
 
         _publishingType = PublishingHelpers.PublishingTypes[publishingType];
 
-        await RtmpSession.SendControlMessageAsync(new StreamIsRecordedMessage { StreamID = MessageStream.MessageStreamId });
-        await RtmpSession.SendControlMessageAsync(new StreamBeginMessage { StreamID = MessageStream.MessageStreamId });
+        await RtmpSession.SendControlMessageAsync(new StreamIsRecordedMessage { StreamId = MessageStream.MessageStreamId });
+        await RtmpSession.SendControlMessageAsync(new StreamBeginMessage { StreamId = MessageStream.MessageStreamId });
         var onStatus = RtmpSession.CreateCommandMessage<OnStatusCommandMessage>();
         MessageStream.RegisterMessageHandler<DataMessage>(HandleData);
         MessageStream.RegisterMessageHandler<AudioMessage>(HandleAudioMessage);
@@ -279,7 +279,7 @@ public class RecordStream : NetStream
         try
         {
             _recordFile.Seek(9, SeekOrigin.Begin);
-            FlvDemuxer.SeekNoLock(milliSeconds, _metaData?.Data[2] as Dictionary<string, object>, ct);
+            FlvDemuxer.SeekNoLock(milliSeconds, _metaData?.Data[2] as Dictionary<string, object>);
             await StartPlayNoLock(ct);
         }
         catch (Exception e)

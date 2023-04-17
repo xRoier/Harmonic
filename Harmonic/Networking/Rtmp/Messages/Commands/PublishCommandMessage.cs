@@ -1,21 +1,16 @@
 ﻿using Harmonic.Networking.Rtmp.Serialization;
-using Harmonic.Networking.Rtmp.Messages;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Harmonic.Networking.Rtmp.Messages.Commands
+namespace Harmonic.Networking.Rtmp.Messages.Commands;
+
+[RtmpCommand(Name = "publish")]
+public class PublishCommandMessage : CommandMessage
 {
-    [RtmpCommand(Name = "publish")]
-    public class PublishCommandMessage : CommandMessage
-    {
-        [OptionalArgument]
-        public string PublishingName { get; set; }
-        [OptionalArgument]
-        public string PublishingType { get; set; }
+    [OptionalArgument]
+    public string PublishingName { get; set; }
+    [OptionalArgument]
+    public string PublishingType { get; set; }
 
-        public PublishCommandMessage(AmfEncodingVersion encoding) : base(encoding)
-        {
-        }
+    public PublishCommandMessage(AmfEncodingVersion encoding) : base(encoding)
+    {
     }
 }

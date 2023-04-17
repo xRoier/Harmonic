@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Harmonic.Networking.Rtmp.Serialization;
-using Harmonic.Networking.Rtmp.Messages;
+﻿using Harmonic.Networking.Rtmp.Serialization;
 
-namespace Harmonic.Networking.Rtmp.Messages.Commands
+namespace Harmonic.Networking.Rtmp.Messages.Commands;
+
+[RtmpCommand(Name = "createStream")]
+public class CreateStreamCommandMessage : CommandMessage
 {
-    [RtmpCommand(Name = "createStream")]
-    public class CreateStreamCommandMessage : CommandMessage
+    public CreateStreamCommandMessage(AmfEncodingVersion encoding) : base(encoding)
     {
-        public CreateStreamCommandMessage(AmfEncodingVersion encoding) : base(encoding)
-        {
-        }
     }
 }
