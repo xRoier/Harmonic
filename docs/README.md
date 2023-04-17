@@ -1,4 +1,4 @@
-# Harmonic
+# SharpRtmp
 A high performance RTMP Server framework implementation
 
 
@@ -8,7 +8,7 @@ A high performance RTMP Server framework implementation
 Program.cs
 
 ```csharp
-using Harmonic.Hosting;
+using SharpRtmp.Hosting;
 using System;
 using System.Net;
 
@@ -21,9 +21,9 @@ await server.StartAsync();
 Startup.cs
 ```csharp
 using Autofac;
-using Harmonic.Hosting;
+using SharpRtmp.Hosting;
 
-namespace Harmonic.Example;
+namespace SharpRtmp.Example;
 
 class Startup : IStartup
 {
@@ -46,7 +46,7 @@ RtmpServer server = new RtmpServerBuilder()
 ```
 # Scalability
 
-Harmonic will scan your assembly and try to find classes that inherit from `RtmpController` or `WebSocketController` then register them into Harmonic, and map controller by url `rtmp://<address>/<controller_name>/<streamName>` for rtmp and `ws://<address>/<controller_name>/<streamName>`. the controller_name is controller class's name then remove the `Controller` suffix, for example `Living` is controller_name of `LivingController`. once Harmonic found any class that inherts from `RtmpController` or `WebSocketController`, it will never register `RtmpController` and `WebSocketController`.
+SharpRtmp will scan your assembly and try to find classes that inherit from `RtmpController` or `WebSocketController` then register them into Harmonic, and map controller by url `rtmp://<address>/<controller_name>/<streamName>` for rtmp and `ws://<address>/<controller_name>/<streamName>`. the controller_name is controller class's name then remove the `Controller` suffix, for example `Living` is controller_name of `LivingController`. once SharpRtmp found any class that inherts from `RtmpController` or `WebSocketController`, it will never register `RtmpController` and `WebSocketController`.
 
 You can also inherit builtin classes `LivingController` or `WebSocketPlayController`, when Harmonic found a class that inherit from them, it will not register `LivingController` and `WebSocketPlayController`. When you want to custom streaming logic, you can create a class that inherits from `LivingController` or `WebSocketPlayController`.
 
@@ -164,7 +164,7 @@ class MyController: LivingController
 
 ## Custom message
 
-To add your own custom message, you need to write a message class, then register the message class when you call `UseHarmonic`
+To add your own custom message, you need to write a message class, then register the message class when you call `UseSharpRtmp`
 
 for example:
 
@@ -179,7 +179,7 @@ static void Main(string[] args)
         {
             c.BindEndPoint = new IPEndPoint(IPAddress.Parse("0.0.0.0"), 8080);
         })
-        .UseHarmonic(c => {
+        .UseSharpRtmp(c => {
             c.RegisterMessage<MyMessage>();
         })
         .Build();
